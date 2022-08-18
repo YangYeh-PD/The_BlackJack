@@ -74,7 +74,18 @@ int main(int argc, char *argv[]) {
     }
     ply_sum = player_sum(player);
     player_result(ply_hand, ply_sum, player);
+
+    // Draw two cards to computer
+    computer = malloc(sizeof(deck));
+
+    for (com_hand = 0; com_hand < 2; com_hand++) {
+        computer = realloc(computer, sizeof(deck) * (com_hand + 1));
+        computer[com_hand] = card[cover_card];
+        cover_card++;
+    }
+    com_sum = computer_sum(computer);
     
+
     // Ask whether user wants to hit or stay
     printf("\nHit or stay? (Hit = 1, Stay = 0) : ");
     scanf("%d", &continuous);
@@ -111,19 +122,9 @@ int main(int argc, char *argv[]) {
     printf("\n");
 
     // Computer Turn
-    computer = malloc(sizeof(deck));
-
-    // Draw two cards to computer
-    for (com_hand = 0; com_hand < 2; com_hand++) {
-        computer = realloc(computer, sizeof(deck) * (com_hand + 1));
-        computer[com_hand] = card[cover_card];
-        cover_card++;
-    }
-    com_sum = computer_sum(computer);
+    // Computer determine whether it wants to hit or stay
     computer_result(com_hand, com_sum, computer);
     printf("\n");
-    
-    // Computer determine whether it wants to hit or stay
     (com_sum < 17) ? (continuous = true) : (continuous = false);
 
     while (continuous) {
